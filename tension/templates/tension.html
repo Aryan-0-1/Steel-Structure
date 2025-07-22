@@ -1,0 +1,226 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Tension Member Design</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Tension Member Design Calculator</h1>-->
+<!--    <form method="POST" action="/tension/solve/">-->
+<!--        {% csrf_token %}-->
+<!--        <label for="fy">fy (MPa):</label>-->
+<!--        <input type="number" step="0.01" id="fy" name="fy" required><br><br>-->
+
+<!--        <label for="fu">fu (MPa):</label>-->
+<!--        <input type="number" step="0.01" id="fu" name="fu" required><br><br>-->
+
+<!--        <label for="L">Length (L):</label>-->
+<!--        <input type="number" step="0.01" id="L" name="L" required><br><br>-->
+
+<!--        <label for="w">Width (w):</label>-->
+<!--        <input type="number" step="0.01" id="w" name="w" required><br><br>-->
+
+<!--        <label for="n">Number of Bolts (n):</label>-->
+<!--        <input type="number" id="n" name="n" required><br><br>-->
+
+<!--        <label for="d">Bolt Diameter (d):</label>-->
+<!--        <input type="number" step="0.01" id="d" name="d" required><br><br>-->
+
+<!--        <label for="do">Hole Diameter (do):</label>-->
+<!--        <input type="number" step="0.01" id="do" name="do" required><br><br>-->
+
+<!--        <label for="t">Thickness (t):</label>-->
+<!--        <input type="number" step="0.01" id="t" name="t" required><br><br>-->
+
+<!--        <label for="Wc">Width of Connected Leg (Wc):</label>-->
+<!--        <input type="number" step="0.01" id="Wc" name="Wc" required><br><br>-->
+
+<!--        <label for="g">Gauge Distance (g):</label>-->
+<!--        <input type="number" step="0.01" id="g" name="g" required><br><br>-->
+
+<!--        <label for="alpha">Alpha:</label>-->
+<!--        <input type="number" step="0.01" id="alpha" name="alpha" required><br><br>-->
+
+<!--        <label for="section_type">Section Type:</label>-->
+<!--        <select id="section_type" name="section_type" required>-->
+<!--            <option value="plate">Plate</option>-->
+<!--            <option value="angle">Angle</option>-->
+<!--        </select><br><br>-->
+
+<!--        <button type="submit">Calculate</button>-->
+<!--    </form>-->
+
+<!--    <h2>Output</h2>-->
+<!--    <div id="output">-->
+<!--        &lt;!&ndash; The result will be displayed here &ndash;&gt;-->
+<!--        {% if result %}-->
+<!--            <p>Result: {{ result }}</p>-->
+<!--        {% endif %}-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tension Member Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            background-color: maroon;
+            color: white;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        form {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 40px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 2px solid #800000;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background-color: maroon;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #800000;
+        }
+        .text-center {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tension Member Design Calculator</h1>
+    <form method="POST" action="/tension/solve/">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fy">fy (MPa)</label>
+                <input type="number" step="0.01" id="fy" name="fy" required value="{{ fy|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="fu">fu (MPa)</label>
+                <input type="number" step="0.01" id="fu" name="fu" required value="{{ fu|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="L">Length (L)</label>
+                <input type="number" step="0.01" id="L" name="L" required value="{{ L|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="w">Width (w)</label>
+                <input type="number" step="0.01" id="w" name="w" required value="{{ w|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="n">Number of Bolts (n)</label>
+                <input type="number" id="n" name="n" required value="{{ n|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="d">Bolt Diameter (d)</label>
+                <input type="number" step="0.01" id="d" name="d" required value="{{ d|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="do">Hole Diameter (do)</label>
+                <input type="number" step="0.01" id="do" name="do" required value="{{ do|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="t">Thickness (t)</label>
+                <input type="number" step="0.01" id="t" name="t" required value="{{ t|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Wc">Width of Connected Leg (Wc)</label>
+                <input type="number" step="0.01" id="Wc" name="Wc" required value="{{ Wc|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="g">Gauge Distance (g)</label>
+                <input type="number" step="0.01" id="g" name="g" required value="{{ g|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="alpha">Alpha</label>
+                <input type="number" step="0.01" id="alpha" name="alpha" required value="{{ alpha|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="section_type">Section Type</label>
+                <select id="section_type" name="section_type" required>
+                    <option value="plate" {% if section_type == 'plate' %}selected{% endif %}>Plate</option>
+                    <option value="angle" {% if section_type == 'angle' %}selected{% endif %}>Angle</option>
+                </select>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Tdb_(Block_Shear_Strength)">Tdg (Yield Strength) (kN)</label>
+                <input type="number" step="0.01" id="Tdb_(Block_Shear_Strength)" name="Tdg_Yield_Strength" readonly value="{{ Tdg_Yield_Strength|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="Tdn">Tdn (Rupture Strength) (kN)</label>
+                <input type="number" step="0.01" id="Tdn" name="Tdn_Rupture_Strength" readonly value="{{ Tdn_Rupture_Strength|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Tdb">Tdb (Block Shear Strength) (kN)</label>
+                <input type="number" step="0.01" id="Tdb" name="Tdb_Block_Shear_Strength" readonly value="{{ Tdb_Block_Shear_Strength|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="Final_Design_Strength">Final Design Strength (kN)</label>
+                <input type="number" step="0.01" id="Final_Design_Strength" name="Final_Design_Strength" readonly value="{{ Final_Design_Strength|default:'' }}">
+            </div>
+        </div>
+    </form>
+</body>
+</html>

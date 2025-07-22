@@ -1,0 +1,197 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Laterally Supported Beam Calculator</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Laterally Supported Beam Calculator</h1>-->
+<!--    <form method="POST" action="/supported/solve/">-->
+<!--        {% csrf_token %}-->
+
+<!--        <label for="section_name">Section Name:</label>-->
+<!--        <input type="text" id="section_name" name="section_name" required><br><br>-->
+
+<!--        <label for="span">Span (m):</label>-->
+<!--        <input type="number" step="0.01" id="span" name="span" required><br><br>-->
+
+<!--        <label for="load">Load (kN/m):</label>-->
+<!--        <input type="number" step="0.01" id="load" name="load" required><br><br>-->
+
+<!--        <label for="fy">fy (MPa):</label>-->
+<!--        <input type="number" step="0.01" id="fy" name="fy" required><br><br>-->
+
+<!--        <label for="beam_type">Beam Type:</label>-->
+<!--        <select id="beam_type" name="beam_type" required>-->
+<!--            <option value="simply_supported">Simply Supported</option>-->
+<!--            <option value="cantilever">Cantilever</option>-->
+<!--        </select><br><br>-->
+
+<!--        <button type="submit">Calculate</button>-->
+<!--    </form>-->
+
+<!--    <h2>Output</h2>-->
+<!--    <div id="output">-->
+<!--        &lt;!&ndash; The result will be displayed here &ndash;&gt;-->
+<!--        {% if result %}-->
+<!--            <p>Result: {{ result }}</p>-->
+<!--        {% endif %}-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laterally Supported Beam Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            background-color: maroon;
+            color: white;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        form {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 40px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 2px solid #800000;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background-color: maroon;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #800000;
+        }
+        .text-center {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Laterally Supported Beam Calculator</h1>
+    <form method="POST" action="/supported/solve/">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="section_name">Section Name</label>
+                <input type="text" id="section_name" name="section_name" required value="{{ section_name|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="span">Span (m)</label>
+                <input type="number" step="0.01" id="span" name="span" required value="{{ span|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="load">Load (kN/m)</label>
+                <input type="number" step="0.01" id="load" name="load" required value="{{ load|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="fy">fy (MPa)</label>
+                <input type="number" step="0.01" id="fy" name="fy" required value="{{ fy|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="beam_type">Beam Type</label>
+                <select id="beam_type" name="beam_type" required>
+                    <option value="simply_supported" {% if beam_type == 'simply_supported' %}selected{% endif %}>Simply Supported</option>
+                    <option value="cantilever" {% if beam_type == 'cantilever' %}selected{% endif %}>Cantilever</option>
+                </select>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Maximum_Bending_Moment">Maximum Bending Moment (kN-m)</label>
+                <input type="number" step="0.01" id="Maximum_Bending_Moment" name="Maximum_Bending_Moment" readonly value="{{ Maximum_Bending_Moment|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="Design_Moment_Capacity">Design Moment Capacity (kN-m)</label>
+                <input type="number" step="0.01" id="Design_Moment_Capacity" name="Design_Moment_Capacity" readonly value="{{ Design_Moment_Capacity|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Shear_Force">Shear Force (kN)</label>
+                <input type="number" step="0.01" id="Shear_Force" name="Shear_Force" readonly value="{{ Shear_Force|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="Design_Shear_Capacity">Design Shear Capacity (kN)</label>
+                <input type="number" step="0.01" id="Design_Shear_Capacity" name="Design_Shear_Capacity" readonly value="{{ Design_Shear_Capacity|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Maximum_Deflection">Maximum Deflection (mm)</label>
+                <input type="number" step="0.01" id="Maximum_Deflection" name="Maximum_Deflection" readonly value="{{ Maximum_Deflection|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="Deflection_Limit">Deflection Limit (mm)</label>
+                <input type="number" step="0.01" id="Deflection_Limit" name="Deflection_Limit" readonly value="{{ Deflection_Limit|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Bending_Strength_Check">Bending Strength Check</label>
+                <input type="text" id="Bending_Strength_Check" name="Bending_Strength_Check" readonly value="{{ Bending_Strength_Check|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="Shear_Strength_Check">Shear Strength Check</label>
+                <input type="text" id="Shear_Strength_Check" name="Shear_Strength_Check" readonly value="{{ Shear_Strength_Check|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Deflection_Check">Deflection Check</label>
+                <input type="text" id="Deflection_Check" name="Deflection_Check" readonly value="{{ Deflection_Check|default:'' }}">
+            </div>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Compression Design</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Compression Design Calculator</h1>-->
+<!--    <form method="POST" action="/compression/solve/">-->
+<!--        {% csrf_token %}-->
+<!--        <label for="fy">fy (MPa):</label>-->
+<!--        <input type="number" step="0.01" id="fy" name="fy" required><br><br>-->
+
+<!--        <label for="area">Area (mm²):</label>-->
+<!--        <input type="number" step="0.01" id="area" name="area" required><br><br>-->
+
+<!--        <label for="alpha">Alpha:</label>-->
+<!--        <input type="number" step="0.01" id="alpha" name="alpha" required><br><br>-->
+
+<!--        <label for="k">k:</label>-->
+<!--        <input type="number" step="0.01" id="k" name="k" required><br><br>-->
+
+<!--        <label for="L">Length (mm):</label>-->
+<!--        <input type="number" step="0.01" id="L" name="L" required><br><br>-->
+
+<!--        <label for="r">r (mm):</label>-->
+<!--        <input type="number" step="0.01" id="r" name="r" required><br><br>-->
+
+<!--        <button type="submit">Calculate</button>-->
+<!--    </form>-->
+
+<!--    <h2>Output</h2>-->
+<!--    <div id="output">-->
+<!--        &lt;!&ndash; The result will be displayed here &ndash;&gt;-->
+<!--        {% if result %}-->
+<!--            <p>Result: {{ result }}</p>-->
+<!--        {% endif %}-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compression Member Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            background-color: maroon;
+            color: white;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        form {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 40px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 2px solid #800000;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background-color: maroon;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #800000;
+        }
+        .text-center {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Compression Member Design Calculator</h1>
+    <form method="POST" action="/compression/solve/">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fy">fy (MPa)</label>
+                <input type="number" step="0.01" id="fy" name="fy" required value="{{ fy|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="area">Area (mm²)</label>
+                <input type="number" step="0.01" id="area" name="area" required value="{{ area|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="alpha">Alpha</label>
+                <input type="number" step="0.01" id="alpha" name="alpha" required value="{{ alpha|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="k">k</label>
+                <input type="number" step="0.01" id="k" name="k" required value="{{ k|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="L">Length (mm)</label>
+                <input type="number" step="0.01" id="L" name="L" required value="{{ L|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="r">r (mm)</label>
+                <input type="number" step="0.01" id="r" name="r" required value="{{ r|default:'' }}">
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="Pd">Design Compressive Strength (Pd) (kN)</label>
+                <input type="number" step="0.01" id="Pd" name="Pd" readonly value="{{ Pd|default:'' }}">
+            </div>
+        </div>
+    </form>
+</body>
+</html>

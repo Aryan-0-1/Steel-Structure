@@ -1,0 +1,164 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Web Design</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Web Design Calculator</h1>-->
+<!--    <form method="POST" action="/web/solve/">-->
+<!--        {% csrf_token %}-->
+<!--        <label for="section_type">Section Type:</label>-->
+<!--        <input type="text" id="section_type" name="section_type" required><br><br>-->
+
+<!--        <label for="fy">fy (MPa):</label>-->
+<!--        <input type="number" step="0.01" id="fy" name="fy" required><br><br>-->
+
+<!--        <label for="alpha">Alpha:</label>-->
+<!--        <input type="number" step="0.01" id="alpha" name="alpha" required><br><br>-->
+
+<!--        <label for="applied_load">Applied Load (kN):</label>-->
+<!--        <input type="number" step="0.01" id="applied_load" name="applied_load" required><br><br>-->
+
+<!--        <label for="b">b (mm):</label>-->
+<!--        <input type="number" step="0.01" id="b" name="b" required><br><br>-->
+
+<!--        <button type="submit">Calculate</button>-->
+<!--    </form>-->
+
+<!--    <h2>Output</h2>-->
+<!--    <div id="output">-->
+<!--        &lt;!&ndash; The result will be displayed here &ndash;&gt;-->
+<!--        {% if result %}-->
+<!--            <p>Result: {{ result }}</p>-->
+<!--        {% endif %}-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            background-color: maroon;
+            color: white;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        form {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 40px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 2px solid #800000;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background-color: maroon;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #800000;
+        }
+        .text-center {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Web Design Calculator</h1>
+    <form method="POST" action="/web/solve/">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="section_type">Section Type</label>
+                <input type="text" id="section_type" name="section_type" required value="{{ section_type|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="fy">fy (MPa)</label>
+                <input type="number" step="0.01" id="fy" name="fy" required value="{{ fy|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="alpha">Alpha</label>
+                <input type="number" step="0.01" id="alpha" name="alpha" required value="{{ alpha|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="applied_load">Applied Load (kN)</label>
+                <input type="number" step="0.01" id="applied_load" name="applied_load" required value="{{ applied_load|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="b">b (mm)</label>
+                <input type="number" step="0.01" id="b" name="b" required value="{{ b|default:'' }}">
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="web_buckling_strength">Web Buckling Strength (kN)</label>
+                <input type="number" step="0.0001" id="web_buckling_strength" name="web_buckling_strength" readonly value="{{ web_buckling_strength|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="web_crippling_strength">Web Crippling Strength (kN)</label>
+                <input type="number" step="0.01" id="web_crippling_strength" name="web_crippling_strength" readonly value="{{ web_crippling_strength|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="factored_load">Factored Load (1.5×Applied) (kN)</label>
+                <input type="number" step="0.01" id="factored_load" name="factored_load" readonly value="{{ factored_load|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="is_safe">Is Safe?</label>
+                <input type="text" id="is_safe" name="is_safe" readonly value="{{ is_safe|default:'' }}">
+            </div>
+        </div>
+    </form>
+</body>
+</html>

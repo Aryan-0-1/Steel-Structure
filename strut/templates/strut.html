@@ -1,0 +1,404 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Strut Design</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Strut Design Calculator</h1>-->
+<!--    <form method="POST" action="/strut/solve/">-->
+<!--        {% csrf_token %}-->
+<!--        <label for="fy">fy (MPa):</label>-->
+<!--        <input type="number" step="0.01" id="fy" name="fy" required><br><br>-->
+
+<!--        <label for="length">Length (mm):</label>-->
+<!--        <input type="number" step="0.01" id="length" name="length" required><br><br>-->
+
+<!--        <label for="r_v">r_v (mm):</label>-->
+<!--        <input type="number" step="0.01" id="r_v" name="r_v" required><br><br>-->
+
+<!--        <label for="b1">b1 (mm):</label>-->
+<!--        <input type="number" step="0.01" id="b1" name="b1" required><br><br>-->
+
+<!--        <label for="b2">b2 (mm):</label>-->
+<!--        <input type="number" step="0.01" id="b2" name="b2" required><br><br>-->
+
+<!--        <label for="t">t (mm):</label>-->
+<!--        <input type="number" step="0.01" id="t" name="t" required><br><br>-->
+
+<!--        <label for="area">Area (mm²):</label>-->
+<!--        <input type="number" step="0.01" id="area" name="area" required><br><br>-->
+
+<!--        <label for="boundary_condition">Boundary Condition:</label>-->
+<!--        <input type="text" id="boundary_condition" name="boundary_condition" required><br><br>-->
+
+<!--        <label for="k1">k1:</label>-->
+<!--        <input type="number" step="0.01" id="k1" name="k1" required><br><br>-->
+
+<!--        <label for="k2">k2:</label>-->
+<!--        <input type="number" step="0.01" id="k2" name="k2" required><br><br>-->
+
+<!--        <label for="k3">k3:</label>-->
+<!--        <input type="number" step="0.01" id="k3" name="k3" required><br><br>-->
+
+<!--        <label for="section_class">Section Class:</label>-->
+<!--        <input type="text" id="section_class" name="section_class" required><br><br>-->
+
+<!--        <label for="factored_load">Factored Load (kN):</label>-->
+<!--        <input type="number" step="0.01" id="factored_load" name="factored_load" required><br><br>-->
+
+<!--        <button type="submit">Calculate</button>-->
+<!--    </form>-->
+
+<!--    <h2>Output</h2>-->
+<!--    <div id="output">-->
+<!--        &lt;!&ndash; The result will be displayed here &ndash;&gt;-->
+<!--        {% if result %}-->
+<!--            <p>Result: {{ result }}</p>-->
+<!--        {% endif %}-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Strut Design</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            background-color: #fce4e4; /* Light maroon background */-->
+<!--            color: #333;-->
+<!--        }-->
+<!--        h1 {-->
+<!--            text-align: center;-->
+<!--            background-color: maroon;-->
+<!--            color: white;-->
+<!--            padding: 20px 0;-->
+<!--            margin: 0;-->
+<!--            font-size: 2.5em;-->
+<!--        }-->
+<!--        form {-->
+<!--            max-width: 600px;-->
+<!--            margin: 30px auto;-->
+<!--            padding: 40px;-->
+<!--            background: white;-->
+<!--            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Darker shadow */-->
+<!--            border-radius: 10px;-->
+<!--            border: 2px solid #800000; /* Darker outline */-->
+<!--        }-->
+<!--        .form-label {-->
+<!--            margin-bottom: 15px;-->
+<!--        }-->
+<!--        label {-->
+<!--            display: block;-->
+<!--            margin-bottom: 5px;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+<!--        input, select, button {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            border: 2px solid #ccc;-->
+<!--            border-radius: 5px;-->
+<!--            font-size: 1em;-->
+<!--        }-->
+<!--        button {-->
+<!--            background-color: maroon;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            cursor: pointer;-->
+<!--            transition: background-color 0.3s ease;-->
+<!--        }-->
+<!--        button:hover {-->
+<!--            background-color: #800000;-->
+<!--        }-->
+<!--        .text-center {-->
+<!--            text-align: center;-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Strut Design Calculator</h1>-->
+<!--    <form method="POST" action="/strut/solve/">-->
+<!--        {% csrf_token %}-->
+<!--        <div class="form-label">-->
+<!--            <label for="fy">fy (MPa)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="fy" name="fy" required value="{{ fy|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="length">Length (mm)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="length" name="length" required value="{{ length|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="r_v">r_v (mm)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="r_v" name="r_v" required value="{{ r_v|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="b1">b1 (mm)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="b1" name="b1" required value="{{ b1|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="b2">b2 (mm)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="b2" name="b2" required value="{{ b2|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="t">t (mm)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="t" name="t" required value="{{ t|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="area">Area (mm²)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="area" name="area" required value="{{ area|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="boundary_condition">Boundary Condition</label>-->
+<!--            <select class="form-control" id="boundary_condition" name="boundary_condition" required>-->
+<!--                <option value="1.0" {% if boundary_condition == 1.0 %}selected{% endif %}>Both Ends Pinned</option>-->
+<!--                <option value="0.8" {% if boundary_condition == 0.8 %}selected{% endif %}>One End Fixed, Other Pinned</option>-->
+<!--                <option value="0.65" {% if boundary_condition == 0.65 %}selected{% endif %}>Both Ends Fixed</option>-->
+<!--                <option value="2.0" {% if boundary_condition == 2.0 %}selected{% endif %}>One End Fixed, Other Free</option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="k1">k1</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="k1" name="k1" required value="{{ k1|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="k2">k2</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="k2" name="k2" required value="{{ k2|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="k3">k3</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="k3" name="k3" required value="{{ k3|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="section_class">Section Class</label>-->
+<!--            <select class="form-control" id="section_class" name="section_class" required>-->
+<!--                <option value="0.21" {% if section_class == 0.21 %}selected{% endif %}>Class 1</option>-->
+<!--                <option value="0.34" {% if section_class == 0.34 %}selected{% endif %}>Class 2</option>-->
+<!--                <option value="0.49" {% if section_class == 0.49 %}selected{% endif %}>Class 3</option>-->
+<!--                <option value="0.76" {% if section_class == 0.76 %}selected{% endif %}>Class 4</option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="factored_load">Factored Load (kN)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="factored_load" name="factored_load" required value="{{ factored_load|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="text-center">-->
+<!--            <button type="submit" class="btn btn-primary">Calculate</button>-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="slenderness_ratio_vv">Slenderness Ratio (λvv)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="slenderness_ratio_vv" name="slenderness_ratio_vv" readonly value="{{ slenderness_ratio_vv|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="slenderness_ratio_phi">Slenderness Ratio (λphi)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="slenderness_ratio_phi" name="slenderness_ratio_phi" readonly value="{{ slenderness_ratio_phi|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="non_dimensional_slenderness_ratio">Non-dimensional Slenderness Ratio (λe)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="non_dimensional_slenderness_ratio" name="non_dimensional_slenderness_ratio" readonly value="{{ non_dimensional_slenderness_ratio|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="compressive_strength">Compressive Strength (MPa)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="compressive_strength" name="compressive_strength" readonly value="{{ compressive_strength|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="load_carrying_capacity">Load Carrying Capacity (kN)</label>-->
+<!--            <input type="number" step="0.01" class="form-control" id="load_carrying_capacity" name="load_carrying_capacity" readonly value="{{ load_carrying_capacity|default:'' }}">-->
+<!--        </div>-->
+<!--        <div class="form-label">-->
+<!--            <label for="is_load_safe">Is Load Safe?</label>-->
+<!--            <input type="text" class="form-control" id="is_load_safe" name="is_load_safe" readonly value="{{ is_load_safe|default:'' }}">-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strut Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fce4e4; /* Light maroon background */
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            background-color: maroon;
+            color: white;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        form {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 40px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Darker shadow */
+            border-radius: 10px;
+            border: 2px solid #800000; /* Darker outline */
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px; /* Space between columns */
+            margin-bottom: 15px;
+        }
+        .form-group {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background-color: maroon;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #800000;
+        }
+        .text-center {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Strut Design Calculator</h1>
+    <form method="POST" action="/strut/solve/">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fy">fy (MPa)</label>
+                <input type="number" step="0.01" id="fy" name="fy" required value="{{ fy|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="length">Length (mm)</label>
+                <input type="number" step="0.01" id="length" name="length" required value="{{ length|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="r_v">r_v (mm)</label>
+                <input type="number" step="0.01" id="r_v" name="r_v" required value="{{ r_v|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="b1">b1 (mm)</label>
+                <input type="number" step="0.01" id="b1" name="b1" required value="{{ b1|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="b2">b2 (mm)</label>
+                <input type="number" step="0.01" id="b2" name="b2" required value="{{ b2|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="t">t (mm)</label>
+                <input type="number" step="0.01" id="t" name="t" required value="{{ t|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="area">Area (mm²)</label>
+                <input type="number" step="0.01" id="area" name="area" required value="{{ area|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="boundary_condition">Boundary Condition</label>
+                <select id="boundary_condition" name="boundary_condition" required>
+                    <option value="1.0" {% if boundary_condition == 1.0 %}selected{% endif %}>Both Ends Pinned</option>
+                    <option value="0.8" {% if boundary_condition == 0.8 %}selected{% endif %}>One End Fixed, Other Pinned</option>
+                    <option value="0.65" {% if boundary_condition == 0.65 %}selected{% endif %}>Both Ends Fixed</option>
+                    <option value="2.0" {% if boundary_condition == 2.0 %}selected{% endif %}>One End Fixed, Other Free</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="k1">k1</label>
+                <input type="number" step="0.01" id="k1" name="k1" required value="{{ k1|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="k2">k2</label>
+                <input type="number" step="0.01" id="k2" name="k2" required value="{{ k2|default:'' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="k3">k3</label>
+                <input type="number" step="0.01" id="k3" name="k3" required value="{{ k3|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="section_class">Section Class</label>
+                <select id="section_class" name="section_class" required>
+                    <option value="0.21" {% if section_class == 0.21 %}selected{% endif %}>Class 1</option>
+                    <option value="0.34" {% if section_class == 0.34 %}selected{% endif %}>Class 2</option>
+                    <option value="0.49" {% if section_class == 0.49 %}selected{% endif %}>Class 3</option>
+                    <option value="0.76" {% if section_class == 0.76 %}selected{% endif %}>Class 4</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="factored_load">Factored Load (kN)</label>
+                <input type="number" step="0.01" id="factored_load" name="factored_load" required value="{{ factored_load|default:'' }}">
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </div>
+        <div class="form-label">
+            <label for="slenderness_ratio_vv">Slenderness Ratio (λvv)</label>
+            <input type="number" step="0.01" class="form-control" id="slenderness_ratio_vv" name="slenderness_ratio_vv" readonly value="{{ slenderness_ratio_vv|default:'' }}">
+        </div>
+        <div class="form-label">
+            <label for="slenderness_ratio_phi">Slenderness Ratio (λphi)</label>
+            <input type="number" step="0.01" class="form-control" id="slenderness_ratio_phi" name="slenderness_ratio_phi" readonly value="{{ slenderness_ratio_phi|default:'' }}">
+        </div>
+        <div class="form-label">
+            <label for="non_dimensional_slenderness_ratio">Non-dimensional Slenderness Ratio (λe)</label>
+            <input type="number" step="0.01" class="form-control" id="non_dimensional_slenderness_ratio" name="non_dimensional_slenderness_ratio" readonly value="{{ non_dimensional_slenderness_ratio|default:'' }}">
+        </div>
+        <div class="form-label">
+            <label for="compressive_strength">Compressive Strength (MPa)</label>
+            <input type="number" step="0.01" class="form-control" id="compressive_strength" name="compressive_strength" readonly value="{{ compressive_strength|default:'' }}">
+        </div>
+        <div class="form-label">
+            <label for="load_carrying_capacity">Load Carrying Capacity (kN)</label>
+            <input type="number" step="0.01" class="form-control" id="load_carrying_capacity" name="load_carrying_capacity" readonly value="{{ load_carrying_capacity|default:'' }}">
+        </div>
+        <div class="form-label">
+            <label for="is_load_safe">Is Load Safe?</label>
+            <input type="text" class="form-control" id="is_load_safe" name="is_load_safe" readonly value="{{ is_load_safe|default:'' }}">
+        </div>
+    </form>
+</body>
+</html>
