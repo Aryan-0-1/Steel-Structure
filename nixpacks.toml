@@ -1,0 +1,10 @@
+# nixpacks.toml
+
+[phases.build]
+# Build step runs once per deploy
+cmds = ["python manage.py collectstatic --noinput"]
+
+[start]
+# Must listen on 0.0.0.0:$PORT for Railway public networking
+# Run migrations, then start Gunicorn
+cmd = "python manage.py migrate && gunicorn steel.wsgi:application --bind 0.0.0.0:$PORT"
