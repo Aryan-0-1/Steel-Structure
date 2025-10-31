@@ -21,7 +21,7 @@ class Unsupported:
         self.gamma_m0 = 1.1
 
     def iscode(self):
-        df = pd.read_csv('C:\\Users\\aryan\PycharmProjects\Steel\steel\\unsupported\static\\beams.csv')
+        df = pd.read_csv(r'unsupported\static\beams.csv')
         for i in range(len(df)):
             if df['Section '][i] == self.section_name:
                 D = df['D(mm)'][i]
