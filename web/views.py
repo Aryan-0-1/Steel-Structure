@@ -17,7 +17,7 @@ class Web:
         self.b = b
 
     def iscode(self):
-        df = pd.read_csv('C:\\Users\\aryan\PycharmProjects\Steel\steel\web\static\\beams.csv')
+        df = pd.read_csv(r'web\static\beams.csv')
         # section = self.section_type.str.split(' ')
         for i in range(len(df)):
             if df['Section '][i] == self.section_type:
