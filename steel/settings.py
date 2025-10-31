@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ukd7!a68eew&cxmoukex3lv)j^4+7)!mlol7hz6l&z7**qfkhy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
-# DEBUG = True
+# DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+DEBUG = True
 
 SECRET_KEY = os.getenv("SECRET_KEY", "change-me")  # Set in Railway
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
@@ -143,7 +143,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
     # ... the rest
 # ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 

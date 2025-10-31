@@ -64,17 +64,125 @@
             text-align: center;
             margin-top: 20px;
         }
-    </style>
+/*new options*/
+table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #800000;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: maroon;
+            color: white;
+        }
+        .memory-section {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #800000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .memory-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .memory-buttons button {
+            width: auto;
+            margin: 5px;
+            padding: 10px 20px;
+        }
+   </style>
 </head>
 <body>
     <h1>Laterally Supported Beam Calculator</h1>
+<!--    inputs-->
     <form method="POST" action="/supported/solve/">
         {% csrf_token %}
         <div class="form-row">
-            <div class="form-group">
-                <label for="section_name">Section Name</label>
-                <input type="text" id="section_name" name="section_name" required value="{{ section_name|default:'' }}">
-            </div>
+
+<div class="form-group">
+  <label for="section_name">Section Name</label>
+  <select id="section_name" name="section_name" required>
+    <option value="">-- Select Section --</option>
+      <option value="ISMB 100" {% if section_name == 'ISMB 100' %}selected{% endif %}>ISMB 100</option>
+<option value="ISMB 125" {% if section_name == 'ISMB 125' %}selected{% endif %}>ISMB 125</option>
+<option value="ISMB 150" {% if section_name == 'ISMB 150' %}selected{% endif %}>ISMB 150</option>
+<option value="ISMB 175" {% if section_name == 'ISMB 175' %}selected{% endif %}>ISMB 175</option>
+<option value="ISMB 200" {% if section_name == 'ISMB 200' %}selected{% endif %}>ISMB 200</option>
+<option value="ISMB 225" {% if section_name == 'ISMB 225' %}selected{% endif %}>ISMB 225</option>
+<option value="ISMB 250" {% if section_name == 'ISMB 250' %}selected{% endif %}>ISMB 250</option>
+<option value="ISMB 300" {% if section_name == 'ISMB 300' %}selected{% endif %}>ISMB 300</option>
+<option value="ISMB 350" {% if section_name == 'ISMB 350' %}selected{% endif %}>ISMB 350</option>
+<option value="ISMB 400" {% if section_name == 'ISMB 400' %}selected{% endif %}>ISMB 400</option>
+<option value="ISMB 450" {% if section_name == 'ISMB 450' %}selected{% endif %}>ISMB 450</option>
+<option value="ISMB 500" {% if section_name == 'ISMB 500' %}selected{% endif %}>ISMB 500</option>
+<option value="ISMB 550" {% if section_name == 'ISMB 550' %}selected{% endif %}>ISMB 550</option>
+<option value="ISMB 600" {% if section_name == 'ISMB 600' %}selected{% endif %}>ISMB 600</option>
+<option value="ISJB 150" {% if section_name == 'ISJB 150' %}selected{% endif %}>ISJB 150</option>
+<option value="ISJB 175" {% if section_name == 'ISJB 175' %}selected{% endif %}>ISJB 175</option>
+<option value="ISJB 200" {% if section_name == 'ISJB 200' %}selected{% endif %}>ISJB 200</option>
+<option value="ISJB 225" {% if section_name == 'ISJB 225' %}selected{% endif %}>ISJB 225</option>
+<option value="ISLB 75" {% if section_name == 'ISLB 75' %}selected{% endif %}>ISLB 75</option>
+<option value="ISLB 100" {% if section_name == 'ISLB 100' %}selected{% endif %}>ISLB 100</option>
+<option value="ISLB(P) 100" {% if section_name == 'ISLB(P) 100' %}selected{% endif %}>ISLB(P) 100</option>
+<option value="ISLB 125" {% if section_name == 'ISLB 125' %}selected{% endif %}>ISLB 125</option>
+<option value="ISLB 150" {% if section_name == 'ISLB 150' %}selected{% endif %}>ISLB 150</option>
+<option value="ISLB 175" {% if section_name == 'ISLB 175' %}selected{% endif %}>ISLB 175</option>
+<option value="ISLB(P) 175" {% if section_name == 'ISLB(P) 175' %}selected{% endif %}>ISLB(P) 175</option>
+<option value="ISLB 200" {% if section_name == 'ISLB 200' %}selected{% endif %}>ISLB 200</option>
+<option value="ISLB(P) 200" {% if section_name == 'ISLB(P) 200' %}selected{% endif %}>ISLB(P) 200</option>
+<option value="ISLB 225" {% if section_name == 'ISLB 225' %}selected{% endif %}>ISLB 225</option>
+<option value="ISLB 250" {% if section_name == 'ISLB 250' %}selected{% endif %}>ISLB 250</option>
+<option value="ISLB 275" {% if section_name == 'ISLB 275' %}selected{% endif %}>ISLB 275</option>
+<option value="ISLB 300" {% if section_name == 'ISLB 300' %}selected{% endif %}>ISLB 300</option>
+<option value="ISLB(P) 300" {% if section_name == 'ISLB(P) 300' %}selected{% endif %}>ISLB(P) 300</option>
+<option value="ISLB 325" {% if section_name == 'ISLB 325' %}selected{% endif %}>ISLB 325</option>
+<option value="ISLB 350" {% if section_name == 'ISLB 350' %}selected{% endif %}>ISLB 350</option>
+<option value="ISLB 400" {% if section_name == 'ISLB 400' %}selected{% endif %}>ISLB 400</option>
+<option value="ISLB 450" {% if section_name == 'ISLB 450' %}selected{% endif %}>ISLB 450</option>
+<option value="ISLB 500" {% if section_name == 'ISLB 500' %}selected{% endif %}>ISLB 500</option>
+<option value="ISLB 550" {% if section_name == 'ISLB 550' %}selected{% endif %}>ISLB 550</option>
+<option value="ISLB 600" {% if section_name == 'ISLB 600' %}selected{% endif %}>ISLB 600</option>
+<option value="ISWB 150" {% if section_name == 'ISWB 150' %}selected{% endif %}>ISWB 150</option>
+<option value="ISWB 175" {% if section_name == 'ISWB 175' %}selected{% endif %}>ISWB 175</option>
+<option value="ISWB 200" {% if section_name == 'ISWB 200' %}selected{% endif %}>ISWB 200</option>
+<option value="ISWB 200*" {% if section_name == 'ISWB 200*' %}selected{% endif %}>ISWB 200*</option>
+<option value="ISWB 225" {% if section_name == 'ISWB 225' %}selected{% endif %}>ISWB 225</option>
+<option value="ISWB 250" {% if section_name == 'ISWB 250' %}selected{% endif %}>ISWB 250</option>
+<option value="ISWB 300" {% if section_name == 'ISWB 300' %}selected{% endif %}>ISWB 300</option>
+<option value="ISWB 350" {% if section_name == 'ISWB 350' %}selected{% endif %}>ISWB 350</option>
+<option value="ISWB 400" {% if section_name == 'ISWB 400' %}selected{% endif %}>ISWB 400</option>
+<option value="ISWB 450" {% if section_name == 'ISWB 450' %}selected{% endif %}>ISWB 450</option>
+<option value="ISWB 500" {% if section_name == 'ISWB 500' %}selected{% endif %}>ISWB 500</option>
+<option value="ISWB 550" {% if section_name == 'ISWB 550' %}selected{% endif %}>ISWB 550</option>
+<option value="ISWB 600" {% if section_name == 'ISWB 600' %}selected{% endif %}>ISWB 600</option>
+<option value="ISWB 600*" {% if section_name == 'ISWB 600*' %}selected{% endif %}>ISWB 600*</option>
+<option value="ISHB 150" {% if section_name == 'ISHB 150' %}selected{% endif %}>ISHB 150</option>
+<option value="ISHB 150*" {% if section_name == 'ISHB 150*' %}selected{% endif %}>ISHB 150*</option>
+<option value="ISHB 200" {% if section_name == 'ISHB 200' %}selected{% endif %}>ISHB 200</option>
+<option value="ISHB 200*" {% if section_name == 'ISHB 200*' %}selected{% endif %}>ISHB 200*</option>
+<option value="ISHB 225" {% if section_name == 'ISHB 225' %}selected{% endif %}>ISHB 225</option>
+<option value="ISHB 225*" {% if section_name == 'ISHB 225*' %}selected{% endif %}>ISHB 225*</option>
+<option value="ISHB 250" {% if section_name == 'ISHB 250' %}selected{% endif %}>ISHB 250</option>
+<option value="ISHB 250*" {% if section_name == 'ISHB 250*' %}selected{% endif %}>ISHB 250*</option>
+<option value="ISHB 300" {% if section_name == 'ISHB 300' %}selected{% endif %}>ISHB 300</option>
+<option value="ISHB 300*" {% if section_name == 'ISHB 300*' %}selected{% endif %}>ISHB 300*</option>
+<option value="ISHB 350" {% if section_name == 'ISHB 350' %}selected{% endif %}>ISHB 350</option>
+<option value="ISHB 350*" {% if section_name == 'ISHB 350*' %}selected{% endif %}>ISHB 350*</option>
+<option value="ISHB 400" {% if section_name == 'ISHB 400' %}selected{% endif %}>ISHB 400</option>
+<option value="ISHB 400*" {% if section_name == 'ISHB 400*' %}selected{% endif %}>ISHB 400*</option>
+<option value="ISHB 450" {% if section_name == 'ISHB 450' %}selected{% endif %}>ISHB 450</option>
+<option value="ISHB 450*" {% if section_name == 'ISHB 450*' %}selected{% endif %}>ISHB 450*</option>
+  </select>
+</div>
+
+
             <div class="form-group">
                 <label for="span">Span (m)</label>
                 <input type="number" step="0.01" id="span" name="span" required value="{{ span|default:'' }}">
@@ -102,6 +210,7 @@
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Calculate</button>
         </div>
+<!--results-->
         <div class="form-row">
             <div class="form-group">
                 <label for="Maximum_Bending_Moment">Maximum Bending Moment (kN-m)</label>
@@ -148,6 +257,526 @@
                 <input type="text" id="Deflection_Check" name="Deflection_Check" readonly value="{{ Deflection_Check|default:'' }}">
             </div>
         </div>
+</form>
+
+
+
+ <!-- Memory Section -->
+    <div class="memory-section">
+        <h2 style="text-align:center;color:maroon;">Saved Inputs (Comparison Memory)</h2>
+        <div class="memory-buttons">
+            <button type="button" id="saveBtn" onclick="saveToMemory()" disabled>Save Current Inputs</button>
+            <button type="button" onclick="clearMemory()">Clear Memory</button>
+        </div>
+        <table id="memoryTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Section Name</th>
+                    <th>Span (m)</th>
+                    <th>Load (kN/m)</th>
+                    <th>fy (MPa)</th>
+                    <th>Beam Type</th>
+                    <th>Design Moment Capacity (kN-m)</th>
+                    <th>Maximum Bending Moment (kN-m)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Load saved data from localStorage
+        function loadMemory() {
+            const memoryData = JSON.parse(localStorage.getItem("beamMemory") || "[]");
+            const tbody = document.querySelector("#memoryTable tbody");
+            tbody.innerHTML = "";
+            memoryData.forEach((item, index) => {
+                const row = `<tr>
+                    <td>${index + 1}</td>
+                    <td>${item.section_name}</td>
+                    <td>${item.span}</td>
+                    <td>${item.load}</td>
+                    <td>${item.fy}</td>
+                    <td>${item.beam_type}</td>
+                    <td>${item.Design_Moment_Capacity}</td>
+                    <td>${item.Maximum_Bending_Moment}</td>
+                </tr>`;
+                tbody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+
+        // Save current form data to localStorage
+        function saveToMemory() {
+            const data = {
+                section_name: document.getElementById("section_name").value,
+                span: document.getElementById("span").value,
+                load: document.getElementById("load").value,
+                fy: document.getElementById("fy").value,
+                beam_type: document.getElementById("beam_type").value,
+                Design_Moment_Capacity: document.getElementById("Design_Moment_Capacity").value,
+                Maximum_Bending_Moment: document.getElementById("Maximum_Bending_Moment").value
+            };
+            let memoryData = JSON.parse(localStorage.getItem("beamMemory") || "[]");
+            memoryData.push(data);
+            localStorage.setItem("beamMemory", JSON.stringify(memoryData));
+            loadMemory();
+            clearAllFields();  // reset fields after saving
+            document.getElementById("saveBtn").disabled = true; // disable after save
+        }
+
+        // Clear all form inputs and outputs
+        function clearAllFields() {
+            document.querySelectorAll("#beamForm input").forEach(input => input.value = "");
+            document.querySelector("#beam_type").selectedIndex = 0;
+        }
+
+        // Enable or disable Save button based on safety checks
+        function checkSafetyStatus() {
+            const bending = document.getElementById("Bending_Strength_Check").value.trim().toLowerCase();
+            const shear = document.getElementById("Shear_Strength_Check").value.trim().toLowerCase();
+            const deflection = document.getElementById("Deflection_Check").value.trim().toLowerCase();
+            const saveBtn = document.getElementById("saveBtn");
+
+            if (bending === "safe" && shear === "safe" && deflection === "safe") {
+                saveBtn.disabled = false;
+            } else {
+                saveBtn.disabled = true;
+            }
+        }
+
+        // Clear saved data
+        function clearMemory() {
+            if (confirm("Are you sure you want to clear all saved inputs?")) {
+                localStorage.removeItem("beamMemory");
+                loadMemory();
+            }
+        }
+
+        // Observe changes to safety fields (works dynamically)
+        const observer = new MutationObserver(checkSafetyStatus);
+        window.onload = function() {
+            loadMemory();
+            ["Bending_Strength_Check", "Shear_Strength_Check", "Deflection_Check"].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) observer.observe(el, { attributes: true, attributeFilter: ['value'] });
+                el.addEventListener("input", checkSafetyStatus);
+            });
+            checkSafetyStatus();
+        };
+    </script>
+
+
+<!-- Cost Optimization Section -->
+<div class="memory-section">
+    <h2 style="text-align:center;color:maroon;">Cost Optimization</h2>
+
+    <form method="POST" action="{% url 'optimize_cost' %}">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="unit_cost">Unit Cost of Steel (₹/kg)</label>
+                <input type="number" step="0.01" id="unit_cost" name="unit_cost" required value="{{ unit_cost|default:'' }}">
+            </div>
+            <div class="form-group" style="align-self: flex-end;">
+                <button type="submit" id="optimizeBtn">Cost Optimization</button>
+            </div>
+        </div>
+
+        <!-- ✅ Hidden input to carry memory data -->
+        <input type="hidden" id="beamMemory" name="beamMemory">
+
     </form>
+
+    {% if cost_results %}
+    <table id="optimizationTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Section Name</th>
+                <th>Span (m)</th>
+                <th>Load (kN/m)</th>
+                <th>Unit Cost (₹/kg)</th>
+                <th>Total Cost (₹)</th>
+                <th>Utilization Ratio (UR)</th>
+                <th>CO₂ Emission (kg)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in cost_results %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ result.section_name }}</td>
+                <td>{{ result.span }}</td>
+                <td>{{ result.Load }}</td>
+                <td>{{ unit_cost }}</td>
+                <td>{{ result.cost|floatformat:2 }}</td>
+                <td>{{ result.ur|floatformat:3 }}</td>
+                <td>{{ result.CO2|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+
+{% if ans %}
+<div class="memory-section">
+    <h2 style="text-align:center;color:maroon;">Multi-Criteria Optimization (Weighted Scores)</h2>
+
+    <!-- 🎚️ Weightage Sliders -->
+    <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+        <div>
+            <label for="wCost">Cost Weight (%)</label>
+            <input type="range" id="wCost" min="0" max="100" value="33" oninput="updateWeights()">
+            <span id="wCostVal">33</span>%
+        </div>
+        <div>
+            <label for="wCarbon">Carbon Weight (%)</label>
+            <input type="range" id="wCarbon" min="0" max="100" value="33" oninput="updateWeights()">
+            <span id="wCarbonVal">33</span>%
+        </div>
+        <div>
+            <label for="wUR">UR Weight (%)</label>
+            <input type="range" id="wUR" min="0" max="100" value="34" oninput="updateWeights()">
+            <span id="wURVal">34</span>%
+        </div>
+    </div>
+
+    <p id="sumWarning" style="text-align:center; color:red; display:none;">
+        ⚠️ The total weight must equal 100%.
+    </p>
+
+    <table id="finalScoreTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Section</th>
+                <th>norm_cost</th>
+                <th>norm_carbon</th>
+                <th>norm_ur</th>
+                <th>Calculation</th>
+                <th>Final Weighted Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in ans %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ row.section_name }}</td>
+                <td class="norm_cost">{{ row.norm_cost|floatformat:2 }}</td>
+                <td class="norm_carbon">{{ row.norm_carbon|floatformat:2 }}</td>
+                <td class="norm_ur">{{ row.norm_ur|floatformat:2 }}</td>
+                <td class="calc"></td>
+                <td class="final_score"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- 🎯 JavaScript for Slider Logic and Dynamic Calculation -->
+<script>
+function updateWeights() {
+    const wCost = parseFloat(document.getElementById("wCost").value);
+    const wCarbon = parseFloat(document.getElementById("wCarbon").value);
+    const wUR = parseFloat(document.getElementById("wUR").value);
+
+    const total = wCost + wCarbon + wUR;
+    document.getElementById("wCostVal").innerText = wCost;
+    document.getElementById("wCarbonVal").innerText = wCarbon;
+    document.getElementById("wURVal").innerText = wUR;
+
+    const warning = document.getElementById("sumWarning");
+
+    if (total !== 100) {
+        warning.style.display = "block";
+    } else {
+        warning.style.display = "none";
+    }
+
+    // Only calculate if total = 100
+    if (total === 100) {
+        const rows = document.querySelectorAll("#finalScoreTable tbody tr");
+
+        rows.forEach(row => {
+            const norm_cost = parseFloat(row.querySelector(".norm_cost").innerText);
+            const norm_carbon = parseFloat(row.querySelector(".norm_carbon").innerText);
+            const norm_ur = parseFloat(row.querySelector(".norm_ur").innerText);
+
+            const wCostNorm = wCost / 100;
+            const wCarbonNorm = wCarbon / 100;
+            const wURNorm = wUR / 100;
+
+            const final_score = (norm_cost * wCostNorm) + (norm_carbon * wCarbonNorm) + (norm_ur * wURNorm);
+
+            row.querySelector(".calc").innerText =
+                `${wCostNorm.toFixed(2)}×${norm_cost.toFixed(2)} + ${wCarbonNorm.toFixed(2)}×${norm_carbon.toFixed(2)} + ${wURNorm.toFixed(2)}×${norm_ur.toFixed(2)}`;
+
+            row.querySelector(".final_score").innerText = final_score.toFixed(3);
+        });
+    }
+}
+
+// Initialize on page load
+window.addEventListener("DOMContentLoaded", updateWeights);
+</script>
+{% endif %}
+
+<!-- ✅ JavaScript to attach beam memory before submitting -->
+<script>
+document.getElementById("optimizeBtn").addEventListener("click", function () {
+    const memoryData = JSON.parse(localStorage.getItem("beamMemory") || "[]");
+    document.getElementById("beamMemory").value = JSON.stringify(memoryData);
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<!-- Action Buttons Section -->
+<div style="text-align:center; margin-top: 40px; display:flex; justify-content:center; gap:30px;">
+    <button id="clearDataBtn"
+        style="padding:10px 25px; background-color:#a94442; color:white; border:none; border-radius:8px; font-size:16px; cursor:pointer;">
+        🧹 Clear Data
+    </button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // ✅ Clear all tables when "Clear Data" is clicked
+    document.getElementById("clearDataBtn").addEventListener("click", function () {
+        const tables = document.querySelectorAll("table");
+        tables.forEach(tbl => {
+            const rows = tbl.querySelectorAll("tr:not(:first-child)");
+            rows.forEach(r => r.remove());
+        });
+
+        // Clear memory (if any data saved in browser)
+        sessionStorage.clear();
+        localStorage.clear();
+
+        // Also tell the backend to clear session data
+        fetch("{% url 'clear_data' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/json"
+            }
+        }).then(() => {
+            alert("✅ All data cleared successfully!");
+        }).catch(err => {
+            console.error(err);
+            alert("⚠️ Could not clear session data on server.");
+        });
+    });
+});
+</script>
+
+
+<!-- Replace your existing clear script with this robust version -->
+<script>
+/* Helper to get CSRF token from cookie (Django recommended method) */
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+/* Robust clearing routine */
+function clearAllTablesAndOutputs() {
+    // 1) Clear all table bodies (handles tables with <tbody> and without)
+    document.querySelectorAll("table").forEach(tbl => {
+        const tbody = tbl.tBodies && tbl.tBodies.length ? tbl.tBodies[0] : null;
+        if (tbody) {
+            // Remove all data rows inside tbody
+            tbody.innerHTML = "";
+        } else {
+            // If there's no tbody, remove all rows except the header row(s)
+            const rows = Array.from(tbl.querySelectorAll("tr"));
+            // Keep the very first header row (if any) and remove the rest
+            rows.slice(1).forEach(r => r.remove());
+        }
+    });
+
+    // 2) If you want the memory table to keep the header row but be empty, ensure it exists with empty tbody
+    const memTable = document.getElementById("memoryTable");
+    if (memTable) {
+        if (!memTable.tBodies || memTable.tBodies.length === 0) {
+            const tb = document.createElement("tbody");
+            memTable.appendChild(tb);
+        } else {
+            memTable.tBodies[0].innerHTML = "";
+        }
+    }
+
+    // 3) Clear final score table but keep headers
+    const finalScore = document.getElementById("finalScoreTable");
+    if (finalScore && finalScore.tBodies && finalScore.tBodies[0]) {
+        finalScore.tBodies[0].innerHTML = "";
+    }
+
+    // 4) Clear optimization table body if present
+    const optTable = document.getElementById("optimizationTable");
+    if (optTable && optTable.tBodies && optTable.tBodies[0]) {
+        optTable.tBodies[0].innerHTML = "";
+    }
+
+    // 5) Clear all form output inputs (readonly on right side)
+    const outputs = [
+        "Maximum_Bending_Moment","Design_Moment_Capacity","Shear_Force",
+        "Design_Shear_Capacity","Maximum_Deflection","Deflection_Limit",
+        "Bending_Strength_Check","Shear_Strength_Check","Deflection_Check"
+    ];
+    outputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+
+    // 6) Reset form inputs (optionally)
+    const form = document.querySelector("form[method='POST'][action='/supported/solve/'], form#beamForm");
+    if (form) form.reset();
+
+    // 7) Clear local & session storage (client-side memory)
+    try {
+        localStorage.removeItem("beamMemory");
+        sessionStorage.clear();
+    } catch (e) {
+        console.warn("Storage clear failed:", e);
+    }
+
+    // 8) Tell the backend to clear session data too (safe CSRF handling)
+    const csrftoken = getCookie('csrftoken');
+    fetch("{% url 'clear_data' %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrftoken,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ clear: true })
+    }).then(resp => {
+        if (resp.ok) {
+            alert("✅ All tables, outputs and stored data have been cleared.");
+        } else {
+            alert("⚠️ Client-side cleared. Server-side clear request failed.");
+        }
+    }).catch(err => {
+        console.error(err);
+        alert("✅ Client-side cleared. Server-side clear request failed (network).");
+    });
+}
+
+/* Attach handler to your Clear button */
+document.addEventListener("DOMContentLoaded", function () {
+    const clearBtn = document.getElementById("clearDataBtn");
+    if (clearBtn) {
+        clearBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (confirm("This will remove all displayed results and stored memories. Continue?")) {
+                clearAllTablesAndOutputs();
+            }
+        });
+    }
+});
+</script>
+
+
+
+
+
+
+<!--<form id="downloadForm" method="POST" action="{% url 'download_report' %}">-->
+<!--    {% csrf_token %}-->
+<!--    <input type="hidden" name="beamData" id="beamDataInput">-->
+<!--    <button type="submit"-->
+<!--        style="padding:10px 25px; background-color:#3c763d; color:white; border:none; border-radius:8px; font-size:16px; cursor:pointer;">-->
+<!--        📄 Download Report-->
+<!--    </button>-->
+<!--</form>-->
+
+<!--<script>-->
+<!--document.getElementById("downloadForm").addEventListener("submit", function(e) {-->
+<!--    // Collect data from your table rows dynamically-->
+<!--    const table = document.querySelector("#memoryTable tbody");-->
+<!--    const rows = table ? table.querySelectorAll("tr") : [];-->
+<!--    const beamData = [];-->
+
+<!--    rows.forEach(r => {-->
+<!--        const cells = r.querySelectorAll("td");-->
+<!--        if (cells.length > 0) {-->
+<!--            beamData.push({-->
+<!--                section_name: cells[0]?.innerText.trim(),-->
+<!--                span: cells[1]?.innerText.trim(),-->
+<!--                load: cells[2]?.innerText.trim(),-->
+<!--                Design_Moment: cells[3]?.innerText.trim(),-->
+<!--                Stress: cells[4]?.innerText.trim(),-->
+<!--                Cost: cells[5]?.innerText.trim()-->
+<!--            });-->
+<!--        }-->
+<!--    });-->
+
+<!--    // Convert to JSON and store in hidden input-->
+<!--    document.getElementById("beamDataInput").value = JSON.stringify(beamData);-->
+<!--});-->
+<!--</script>-->
+
+
+
+<form id="downloadForm" method="POST" action="{% url 'download_report' %}">
+    {% csrf_token %}
+    <input type="hidden" name="reportData" id="reportDataInput">
+    <button type="submit"
+        style="padding:10px 25px; background-color:#3c763d; color:white; border:none; border-radius:8px; font-size:16px; cursor:pointer;">
+        📄 Download Report
+    </button>
+</form>
+
+<script>
+document.getElementById("downloadForm").addEventListener("submit", function(e) {
+    // === Collect calculation summary data (from top of page) ===
+    const calcData = {};
+    document.querySelectorAll(".calc-result").forEach(el => {
+        calcData[el.id] = el.innerText.trim();
+    });
+
+    // === Collect all tables (multiple) ===
+    const tables = {};
+    document.querySelectorAll("table").forEach((tbl, i) => {
+        const name = tbl.getAttribute("id") || `table_${i + 1}`;
+        const rows = [];
+        const headers = [];
+        tbl.querySelectorAll("thead th").forEach(h => headers.push(h.innerText.trim()));
+        tbl.querySelectorAll("tbody tr").forEach(tr => {
+            const cells = tr.querySelectorAll("td");
+            if (cells.length > 0) {
+                const rowData = {};
+                cells.forEach((c, j) => rowData[headers[j] || `col${j + 1}`] = c.innerText.trim());
+                rows.push(rowData);
+            }
+        });
+        tables[name] = rows;
+    });
+
+    // === Package everything ===
+    const reportData = {
+        calculations: calcData,
+        tables: tables,
+        generatedOn: new Date().toLocaleString()
+    };
+
+    document.getElementById("reportDataInput").value = JSON.stringify(reportData);
+});
+</script>
+
+
+
+
 </body>
 </html>
